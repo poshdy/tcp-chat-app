@@ -1,15 +1,22 @@
 const net = require("node:net");
 const config = require("../config");
 
-const server = net.createServer((socket) => {
-  socket.on("data", (data) => {
-    socket.write(data.toString("utf-8"));
-  });
-});
+let clients = [];
+
+const server = net.createServer();
 
 server.on("connection", (socket) => {
-  const clientDetails = socket.remotePort;
-  console.log(`client: ${clientDetails} is connected`);
+  clients.push(socket);
+  socket.on("data", (data) => {
+    clients.forEach((socket) => {
+      socket.write(data);
+    });
+  });
+  console.log(`client: ${socket.remotePort} is connected`);
 });
 
 server.listen(config.port, config.host);
+
+server.on("close", () => {
+  clients = [];
+});

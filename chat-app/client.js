@@ -1,25 +1,26 @@
 const net = require("node:net");
-const readline = require("node:readline/promises");
-
 const config = require("../config");
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const { WriteMessage, ClearLine, Ask, GoUp } = require("./lib");
 
 const client = net.createConnection({ port: config.port, host: config.host });
 
 client.on("connect", async () => {
   console.log("connected to server");
-  const message = await rl.question("enter a message:");
-  client.write(message);
+  Ask(client);
 });
 
-client.on("data", (data) => {
+client.on("data", async (data) => {
+  console.log(0);
+  await GoUp(0, -1);
+  await ClearLine(0);
   console.log(data.toString("utf-8"));
+  Ask(client);
 });
 
 client.on("end", () => {
   console.log("Connection was ended!");
+});
+client.on("error", () => {
+  console.log("Connection was ended!");
+  process.exit();
 });
