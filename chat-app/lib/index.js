@@ -4,11 +4,8 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-async function Ask(client) {
-  const message = await rl.question("Enter a message > ");
-  await GoUp(0, -1);
-  await ClearLine(0);
-  client.write(message);
+async function Qustion() {
+  return await rl.question("Enter a message > ");
 }
 
 function ClearLine(dir) {
@@ -18,7 +15,7 @@ function ClearLine(dir) {
     });
   });
 }
-function GoUp(dx, dy) {
+function GoLineUp(dx, dy) {
   return new Promise((resolve, reject) => {
     process.stdout.moveCursor(dx, dy, () => {
       resolve();
@@ -26,4 +23,4 @@ function GoUp(dx, dy) {
   });
 }
 
-module.exports = { ClearLine, GoUp, Ask };
+module.exports = { ClearLine, GoLineUp, Qustion };
