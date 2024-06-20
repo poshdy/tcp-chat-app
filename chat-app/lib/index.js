@@ -8,6 +8,9 @@ const rl = readline.createInterface({
 async function Qustion() {
   return await rl.question("Enter a message > ");
 }
+async function Username() {
+  return await rl.question("Enter Your Name > ");
+}
 
 function ClearLine(dir) {
   return new Promise((resolve, reject) => {
@@ -24,4 +27,4 @@ function GoLineUp(dx, dy) {
   });
 }
 
-module.exports = { ClearLine, GoLineUp, Qustion };
+module.exports = { ClearLine, GoLineUp, Qustion, Username };
